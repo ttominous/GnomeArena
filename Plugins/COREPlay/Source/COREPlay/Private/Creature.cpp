@@ -25,6 +25,7 @@
 #include "WorldDecal.h"
 #include "CollisionTools.h"
 #include "MathTools.h"
+#include "ResourceCache.h"
 #include "Debug.h"
 
 int ACreature::lastID = 0;
@@ -505,6 +506,11 @@ void ACreature::kill() {
 	if (!isRagdolling) {
 		startRagdoll();
 	}
+
+	UFXList* deathFXList = UResourceCache::getFXList("DeathSounds");
+	if (deathFXList) {
+		deathFXList->execute(this, GetActorLocation(), bodyYaw, FVector(1, 1, 1));
+	}
 }
 
 void ACreature::processKill(FString killerName, FColor killerColor, FString iconKey, FString effectKey) {
@@ -914,7 +920,6 @@ void ACreature::sendKill_Implementation(FDamageDetails damage) {
 	if (fxList) {
 		fxList->execute(this, GetActorLocation(), bodyYaw, FVector(1, 1, 1));
 	}
-
 }
 
 void ACreature::sendStagger(FDamageDetails damage) {

@@ -22,6 +22,7 @@ void UScoreBoard::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 	}
 
 	UUITools::setTextBlockText(this, "GameTitle", gameState->gameConfiguration->displayName);
+	UUITools::setTextBlockText(this, "GameDescription", gameState->gameConfiguration->description);
 
 	for (int i = 0; i < maxTeams; i++) {
 		updateTeam(i, gameState->teams.Num() > i ? gameState->teams[i] : nullptr);

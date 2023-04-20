@@ -1,0 +1,294 @@
+------------------------------------------------------------------------------
+								01/12/2023
+------------------------------------------------------------------------------
+- Finished migrating over core logic into a UE5 plugin (broke all of my old blueprints in the process)
+- Initial folder and asset cleanup within UE5
+- Add BranchingWidget, to allow one widget to manage 'pages' of other widgets and allow forward/back between those pages.
+- Added a main menu BranchingWidget and level
+
+------------------------------------------------------------------------------
+								01/13/2023
+------------------------------------------------------------------------------
+- Updated Gnome model to support new bones in the beard and hat (allowing for physics simulations)
+- Started rebuilding and simplyfying locomotion animations (idle and walk, right handed)
+- Updated main menu level with better environment effects, chicken dance song, and wandering gnomes in the background
+- Added Test Play level
+- Added Pause Menu
+*** Need to fix in-game camera turning. Only registering mouse movement on mouse down?
+
+------------------------------------------------------------------------------
+								01/14/2023
+------------------------------------------------------------------------------
+- Cleaned up UI/HUD focus switching (fixing issue with debug text widget disappearing and character not turning unless mouse was down)
+- Fixed issue with Pawn input not rebinding when switching between game and UI focus
+- Rebuilt all locomotion animations and added back in (walk/run/sprint forward/back/left/right, jump/fall/land, switch hands)
+- Smoothed out camera transitions when aiming, sprinting and switching hands.
+- Rebuilt base body part, using team color and damage perc (blood) parameters
+- Rebuilt default expression sets and configured default face component (micro expressions, blink and eye wander)
+- Added controls page from Main Menu
+- Updated Test Play mode with dummy bot
+
+------------------------------------------------------------------------------
+								01/15/2023
+------------------------------------------------------------------------------
+- Fixed/flipped Run Backwards Left Handed animation
+- Cleaned up Gnome model (fixed front shoulder clipping and subdivided beard and hat for smoother lighting/normals)
+- Added control/aim rotation smoothing for pawns controlled by other clients (lerp in between replication updates) 
+- Reduced client -> server input replication frequency to reduce chance of bottle necks.
+- Added turning animations back in
+- Updated PlayAnimAction to actually apply the animation data's aim-rotation-enabled and torso-state values.
+- Added sound effects for feet/stepping, jumping and switching hands/equipping.
+- Updated PlayAnimationData and animation blueprints to support dynamic aiming bone rotation changes in between animations
+- Added melee animation and action, with swing sound effects and simple box collision test (no reaction to this yet)
+- Added blood decal and spray assets back in
+
+------------------------------------------------------------------------------
+								01/16/2023
+------------------------------------------------------------------------------
+- Adjusted upper body animation blending, smoothing out spine bones between lower and upper halves of the body
+- Adjusted full body melee animation to no longer apply when crouching
+- Updated Payload anim notifies to support bone position logging, adding those to the final payload
+- Cleaned up melee hit effects (tightend up blood spray placement and added impact sound)
+- Added better overlap test for ALL overlapping bones/bodies
+- Added melee combo (two hit punch, click fast!)
+- Added basic AI/Mind Component, to chase and melee.
+
+------------------------------------------------------------------------------
+								01/17/2023
+------------------------------------------------------------------------------
+- Sound/music volume balancing adjustments
+- Corrected ragdoll replication (client now actually sees ragdoll on deaths)
+- Added bot strafing/jump/retreat to give more variation to their behavior
+- Updated game mode/state with default spawn area (eventually will add actual spawn points)
+- Added bots to the main menu
+- Added basic HUD back in
+
+------------------------------------------------------------------------------
+								01/19/2023
+------------------------------------------------------------------------------
+- Updated Stats component to support regeneration over time (e.g. Health regen), with regen delay upon damage.
+- Added respawn time indicator to HUD
+- Added PointOfInterest and updated the AI to wander towards those if no living target is available
+- Added SpawnPoint (extending PointOfInterest) to be prioritized over default spawn area.
+- Added reticle back into hud (removed debug point)
+- Added game start countdown and end game screen
+- Added kill scoring and win/end match rules
+
+------------------------------------------------------------------------------
+								01/20/2023
+------------------------------------------------------------------------------
+- Added SettingsTools and game settings file saving (VSync, full screen, etc.)
+- Added settings page/menu under Options
+
+------------------------------------------------------------------------------
+								01/21/2023
+------------------------------------------------------------------------------
+- Added BodyPart physics and param filtering by Visual Effect setting
+- Added Face animation filtering by Visual Effect setting
+- Added particle and decal filtering by Visual Effect setting
+- Implemented MaterialPicker, to pick different base Materials based on current settings
+- Rebuilt Gnome materials to extend a base and added some material feature filtering by quality settings
+- Added option FPS display
+- Added Gnome mesh LODs 
+- Added DropItem and ItemSpawner - With Pumpkin health power up
+
+------------------------------------------------------------------------------
+								01/22/2023
+------------------------------------------------------------------------------
+- Added HTTPTools and HTTPManager, to allow for easy external network calls
+- Using the new HTTP tools, implemented external IP address lookup and display
+- Added UserProfile and UserManager, to manage local player profiles and sign-ins
+- Added prompt tracking for HUD (used for login screen)
+- Add party display to main menu
+- Updated dancing gnome on main menu to reflect player 1's default gnome color
+- Spruced up menus
+- Added Navmesh pathfinding to bots and added walls in playable level
+
+------------------------------------------------------------------------------
+								01/23/2023
+------------------------------------------------------------------------------
+- Upgraded to engine version 5.1 (code, project settings, and asset updates)
+- Updated Test Play level with buildings and scenery
+- Adjusted navigation mesh and updated Mind/AI to allow for jumping while traversing it
+
+------------------------------------------------------------------------------
+								01/24/2023
+------------------------------------------------------------------------------
+- Added new in-game music, 'Night Track' by Jay Holm!!
+- Adjusted jump to apply on key press, rather than release (better timing/feel)
+- Rebuilt camera calculation to apply offsets differently, allowing collision with walls to work.
+- Updated camera manager to hide the player when camera gets too close
+- Adjusted navmesh pathfinding to first find the closest target point on navmesh before querying a path (in case the target is off the grid!)
+- Updated Team/TeamSpec to allow for Mind class overrides (allows for different AI logic for different teams and game modes)
+- Added path debugging in Test Play mode
+- Implemented custom nav links, for better bot jumping around/on obstacles
+
+------------------------------------------------------------------------------
+								01/25/2023
+------------------------------------------------------------------------------
+- Fixed 5.1 packaging anim BP class reference issue for main menu animations
+- Corrected some jumping issues with bot pathing
+
+------------------------------------------------------------------------------
+								01/26/2023
+------------------------------------------------------------------------------
+- Converted Test Play BSP objects to static meshes, for better performance.
+- Added more path links to Test Play level, for improved bot movement through windows and off of balconies
+- Added static camera points, for map spectating when an living pawn isn't spawned yet
+- Spruced up POI and nav link icons/billboards
+- Updated Mind/AI to use AIPerception component, so bots don't know where everyone is all the time.
+- Added a few game mode variations
+
+
+------------------------------------------------------------------------------
+								02/8/2023
+------------------------------------------------------------------------------
+- Implemented online user registration!
+
+------------------------------------------------------------------------------
+								02/9/2023
+------------------------------------------------------------------------------
+- Added online profile extraData parsing (persisting default gnome color now on login)
+
+------------------------------------------------------------------------------
+								02/11/2023
+------------------------------------------------------------------------------
+- Fixed freezing on 'back' button from profile login screen
+- Fixed gnome blood/damage not updating on health pickup
+- Fixed freezing on death/ragdoll and optimized damage server vs client calls
+- Optimized UI/ComplexWidget canInteract check by caching the results within the HUD (only refresh when widgets/layers are added or removed).
+- Added online vs local profile icon on profile list
+- Added 'Please Wait' when auto logging in to the last user profile on start up
+- Added background 'stuff' to the main menu level
+- Added death/kill ticker ('Player X killed Player Y')
+- Added AI Bot naming (at the team or game mode level)
+- Rebuilt FaceComponent, to better blend morphs between expressions and optimize (de-active) when using lower levels of detail.
+- Added basic gamepad/controller support for gameplay and UI (can switch between gamepad and mouse/keyboard freely)
+
+------------------------------------------------------------------------------
+								02/12/2023
+------------------------------------------------------------------------------
+- Smoothed out gamepad input within menus (adjusted input repeat timing and made focused inputs more obvious)
+- Added virtual keyboard widget (for text box entry via gamepad/controller)
+- Updated controls list to display keyboard and gampad bindings
+- Tweaked path finding (adding jump when close, below target)
+- Tweaked third person camera (farther out)
+- UFOs?
+
+------------------------------------------------------------------------------
+								02/13/2023
+------------------------------------------------------------------------------
+- Added user tokens and server/DB pinging, to track active players
+- Added match logging, tracking games that are in-lobby vs in-game and tracking player counts and level names
+- Started migrating game mode/state match settings to a new GameConfiguration structure. This will be used independent of GameMode/State, so lobbies can work.
+
+
+------------------------------------------------------------------------------
+								02/18/2023
+------------------------------------------------------------------------------
+- Finished migrating match settings to GameConfiguration structure (better replication between level changes and view/change settings within lobby screens).
+- Added level select on lobby screen
+- Updated GameConfiguration to allow for multiple levels/level select
+- Added methods in GameTools to easily quite to main menu and move to different maps, while persisting lobbies and GameConfigurations
+- Add MusicManager and MapMusic logic, to better transition music/play lists between levels
+- Added scoring and win/lose sounds
+- Started Haunted Havoc level development
+
+------------------------------------------------------------------------------
+								02/19/2023
+------------------------------------------------------------------------------
+- Music volume adjustments/balancing in game
+- Updated profile registration validation to let the player know a 4 character name and 8 character password (online) are needed
+- Added online session searching/quick match joining! (***WARNING: In-Game replication is still very rough***)
+- Added wandering spirits (some lethal) to Haunted Havoc.
+
+------------------------------------------------------------------------------
+								02/21/2023
+------------------------------------------------------------------------------
+- Fixed client traveling popup. (was closing too early)
+- Fixed server owned pawn rotation not replicating.
+
+------------------------------------------------------------------------------
+								02/21/2023
+------------------------------------------------------------------------------
+- Fixed client attacks not ending/pinging on server
+
+------------------------------------------------------------------------------
+								02/23/2023
+------------------------------------------------------------------------------
+- Fixed relevant input/melee combos not replicating between client and server
+- Fixed environmental kill not replicating to client
+- Fixed client respawn time not updating
+- Fixed 'Play' and lobby screen gamepad navigation and map select formatting
+- Fixed score/death and Victory/Defeat sounds playing on client
+- Added player/pawn removal on client leave match
+- Added join/leave messages in game
+- Added returning to lobby message after match end
+
+------------------------------------------------------------------------------
+								02/24/2023
+------------------------------------------------------------------------------
+- Fixed returning to lobby showing up when next match is starting
+- Fixed scores/teams not resetting when starting the next match
+- Fixed NPCs not being removed in between matches
+- Added effects list (particles/sound) pass through on death or damage (used to replicate environmental kill sounds)
+- Added random team assignment (when teams are evenly populated)
+- Added in game score board! (TAB or back/left special on gamepad)
+
+------------------------------------------------------------------------------
+								02/25/2023
+------------------------------------------------------------------------------
+- Added stagger to DamageDetails and staggerResistance to CreatureSpec
+- Added stagger calculation to Creature damage handling and stagger animations
+- Added secondary attack to DualAxis creature (a strong kick!) - Right Click and Right Shoulder/Bumper on Gamepad
+- Added Move anim state, for better moving/launching over time from animations
+- Updated damage to actually apply force when victim is alive
+- Added DropItem saving/loading and TargetDetail support
+- Added forceResistance to CreatureSpec
+- Added details to the Haunted Havoc map
+- Added score sorting on ScoreBoards
+- Updated AI/bots to use secondary attack
+- Added Weapon animation, action, melee range and damage overrides
+- Added BattleAxe! (Find throughout each level)
+
+------------------------------------------------------------------------------
+								03/02/2023
+------------------------------------------------------------------------------
+- Updated bots to target drop items directly, going for weapons if unarmed and health if damaged.
+- Added weapon and creature spec animation blending overrides (different weapons can blend in arm/upper body animations differently now)
+- Started adding Pistol weapon
+
+------------------------------------------------------------------------------
+								03/03/2023
+------------------------------------------------------------------------------
+- Added bot primary attack burst and delay (so they don't just shoot continuously)
+- Updated bots to only attack when facing their target
+- Added bullet hole decals when projectiles hit the environment.
+
+------------------------------------------------------------------------------
+								03/04/2023
+------------------------------------------------------------------------------
+- Adjusted corrective aiming rotations (addressing weird results for close up objects)
+- Adjusted over the shoulder camera 10 degrees, for better view range (less gnome view blocking)
+- Rebuilt InventoryComponent, using UClass rather than UStruct for items and only replicating to owner
+- Rebuilt shoot and reload actions and HUDs to use new Item structures
+- Reworked ItemSpawner and DropItem, moving much of the logic to the C++ classes and adding support for multiple items and stats.
+- Added pistol ammo and reload actions/animations
+- Adjusted projectile spawning to actually take into account current accuracy
+- Tweaked replication, so inventory and draw weapon action better persists to client
+
+------------------------------------------------------------------------------
+								03/05/2023
+------------------------------------------------------------------------------
+- Added aim asist!
+- Mini gnomes? (more to come)
+
+*****IMPORTANT: If you are hosting a match, make sure you have port forwarding configured on your router, on port 7779*******
+
+------------------------------------------------------------------------------
+								What's Next?
+------------------------------------------------------------------------------
+- Automatic port forwarding (need a third party library)
+- Detailed online match searching/listing
+- Dynamic splitscreen on new controller input
+- More Weapons!!

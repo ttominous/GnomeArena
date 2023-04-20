@@ -60,7 +60,7 @@ public:
 		TArray< UClass* > gameModeClasses;
 
 	UPROPERTY()
-		bool routeFirstGamePadToPlayerOne = false;
+		bool routeFirstGamePadToPlayerOne = true;
 
 	UPROPERTY()
 		bool routeAllGamePadToPlayerOne = false;

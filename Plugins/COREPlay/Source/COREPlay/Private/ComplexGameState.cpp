@@ -235,7 +235,6 @@ void AComplexGameState::updatePlayers(float deltaTime) {
 
 		}
 	}
-	UDebug::tick("Local Players: " + FString::FromInt(localPlayerCount) + ", Controllers: " + FString::FromInt(playerControllers) + ", Unique HUDs: " + FString::FromInt(huds.Num()));
 
 	/*
 		Remove dead human player records.
@@ -1080,14 +1079,12 @@ void AComplexGameState::onSearchedMatches(UHTTPTransaction* transaction, FString
 
 	TSharedPtr<FJsonObject> root = UJsonTools::parseJSON(response);
 	if (root != nullptr) {
-		//UDebug::print("Matches: " + UJsonTools::toString(root, false));
 
 		FString results = UJsonTools::getString(root, "results");
 		TArray < TSharedPtr<FJsonValue> > resultsValues = UJsonTools::parseJSONArray(results);
 
 		for (TSharedPtr<FJsonValue> resultValue : resultsValues) {
 			TSharedPtr<FJsonObject> result = resultValue->AsObject();
-			//UDebug::print("Match: " + UJsonTools::toString(result, false));
 
 			FMatchDetail matchDetail;
 
@@ -1100,27 +1097,21 @@ void AComplexGameState::onSearchedMatches(UHTTPTransaction* transaction, FString
 			matchDetail.ipAddress = UJsonTools::getString(result, "IPAddress");
 
 			if (matchDetail.hostName.Equals(profile->username)) {
-				//UDebug::print("Match has same user as local player: " + profile->username);
 				continue;
 			}
 			if (!searchTransaction->includeLobby && matchDetail.status.Equals("In-Lobby")) {
-				//UDebug::print("Match is in lobby. We don't want that.");
 				continue;
 			}
 			if (!searchTransaction->includeInGame && matchDetail.status.Equals("In-Game")) {
-				//UDebug::print("Match is in game. We don't want that.");
 				continue;
 			}
 			if (!searchTransaction->includeFull && matchDetail.maxPlayers <= matchDetail.currentPlayers) {
-				//UDebug::print("Match is full! " + FString::FromInt(matchDetail.currentPlayers) + " vs " + FString::FromInt(matchDetail.maxPlayers));
 				continue;
 			}
 			if (searchTransaction->preferredDisplayName.Len() > 0 && !searchTransaction->preferredDisplayName.Equals(matchDetail.displayName)) {
-				//UDebug::print("Match doesn't have preferred name/mode '" + searchTransaction->preferredDisplayName + "' vs '" + matchDetail.displayName + "'");
 				continue;
 			}
 			if (searchTransaction->preferredLevelName.Len() > 0 && !searchTransaction->preferredLevelName.Equals(matchDetail.level)) {
-				//UDebug::print("Match doesn't have preferred level '" + searchTransaction->preferredLevelName + "' vs '" + matchDetail.level + "'");
 				continue;
 			}
 

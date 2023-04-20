@@ -152,24 +152,7 @@ UUserWidget* AComplexHUD::addWidget(FString layerKey, FString widgetKey, UClass*
 		GEngine->GameViewport->GetViewportSize(viewportSize);
 	}
 
-	if (UGameViewportSubsystem* subsystem = UGameViewportSubsystem::Get(GetWorld())){
-		FGameViewportWidgetSlot slot;
-
-		if (localPlayerCount == 2) {
-			if (localPlayerIndex == 1) {
-				slot.Offsets.Bottom = viewportSize.Y / 2;
-			}
-			else if (localPlayerIndex == 2) {
-				slot.Offsets.Top = viewportSize.Y / 2;
-			}
-		}
-
-		slot.ZOrder = zIndex;
-		subsystem->AddWidget(widget, slot);
-	}
-	//widget->AddToPlayerScreen(widgetLayers[layerKey].zIndex);
-
-
+	widget->AddToPlayerScreen(widgetLayers[layerKey].zIndex);
 
 	widgetLayers[layerKey].widgets.Add(widgetKey, widget);
 	if (hasFocus) {
@@ -178,8 +161,6 @@ UUserWidget* AComplexHUD::addWidget(FString layerKey, FString widgetKey, UClass*
 			updateFocus();
 		}
 	}
-
-	UDebug::print("Added widget " + layerKey + "." + widgetKey + " to HUD " + this->GetName() + " for player " + GetOwningPlayerController()->GetName());
 
 	return widget;
 }

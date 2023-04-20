@@ -45,8 +45,7 @@ void UDebugTextWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 		UUITools::setTextBlockColor(this, "FPS", FColor::Red);
 	}
 
-	UUITools::setTextBlockText(this, "IPAddress", "IP: " + UHTTPTools::getExternalIP());
-
+	//UUITools::setTextBlockText(this, "IPAddress", "IP: " + UHTTPTools::getExternalIP());
 
 
 	FDebugTextEntry debugText;
