@@ -4,7 +4,7 @@ This is a hobby project, featuring an accumulation of code/know-how from the pas
 A main goal of this project is to consolidate my logic into a core plugin that can be easily transferred between projects.
 
 ## Video Evidence:
-April 2023 (Gameplay): https://www.youtube.com/watch?v=ycIt9J8DN2A
+April 2023 (Gameplay): https://youtu.be/5UQOFmziyTU
 
 January 2023 (Retrospective/Preview): https://youtu.be/gpUVLuSM6_Q
 
